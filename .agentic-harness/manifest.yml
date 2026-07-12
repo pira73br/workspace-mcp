@@ -1,0 +1,12 @@
+agentic_os_exported_version: "1.5.7"
+project_name: Workspace MCP
+project_type: mcp-server
+export_mode: project-harness-capsule
+phase: discovery-complete
+next_phase: proof-contract
+product_maturity: prealpha
+product_version: 0.0.0-prealpha.0
+mcp_server_implemented: false
+architecture: core-plus-extensions
+pivot_date: 2026-07-11
+replaced_project: merciless-janitors-workspace-mcp

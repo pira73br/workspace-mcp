@@ -1,0 +1,14 @@
+{
+  "grant_id": "local-dev-m1",
+  "principal_id": "local-dev",
+  "workspaces": ["workspace-mcp"],
+  "capabilities": [
+    "workspace:list",
+    "fs:list",
+    "fs:read",
+    "git:read",
+    "detect:report"
+  ],
+  "issued_at": "2026-07-11T00:00:00Z",
+  "expires_at": null
+}

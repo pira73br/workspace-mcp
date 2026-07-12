@@ -1,0 +1,35 @@
+.DS_Store
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+.agentic-harness/cache/
+.agentic-harness/tmp/
+.agentic-harness/private/
+.agentic-harness/local-secrets.yml
+*.local.yml
+
+runs/
+outputs/
+artifacts/
+logs/
+tmp/
+.cache/
+
+# Input asset policy: track docs/input scaffolds and documentation.
+# Ignore only raw/large fixture files by extension unless explicitly approved.
+docs/input/**/sample-exports/raw/*.xlsx
+docs/input/**/sample-exports/raw/*.xls
+docs/input/**/sample-exports/raw/*.csv
+docs/input/**/sample-exports/raw/*.zip
+docs/input/**/sample-exports/raw/*.parquet
+docs/input/**/sample-exports/raw/*.download
+docs/input/**/sample-exports/raw/*.tmp

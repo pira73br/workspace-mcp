@@ -1,0 +1,16 @@
+hds_required: true
+semver_required: true
+enterprise_grade_required: true
+project_brief_required: true
+briefing_first_bootstrap_supported: true
+baseline_commit_required_before_implementation: true
+raw_briefing_commit_default: forbidden
+post_bootstrap_readiness_required: true
+human_decision_gate_before_implementation: true
+input_assets_scaffold_required_when_needed: true
+fixture_vs_live_policy_required: true
+payload_signature_detection_required: true
+data_granularity_validation_required: true
+normalizer_contract_before_final_normalization: true
+qa_status_gate_required: true
+coverage_policy_before_broad_extraction: true

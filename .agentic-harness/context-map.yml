@@ -1,0 +1,37 @@
+agentic_os_exported_version: "1.5.7"
+project_name: Workspace MCP
+architecture: core-plus-extensions
+
+start_files:
+  - 00-NEXT_AGENT_STARTUP.md
+  - README.md
+  - PROJECT_BRIEF.md
+  - docs/PROJECT_CONTEXT.md
+  - AGENT_HANDOFF.md
+
+on_demand:
+  architecture:
+    - docs/hds/architecture/extension-architecture.md
+    - docs/hds/architecture/capability-detection.md
+    - docs/hds/architecture/repository-structure.md
+    - docs/hds/architecture/implementation-strategy.md
+    - docs/architecture/adr-0004-core-extension-boundary.md
+    - docs/architecture/adr-0005-capability-detection-model.md
+  security:
+    - docs/hds/security/security-doctrine.md
+    - docs/hds/security/threat-model.md
+    - docs/hds/security/permission-model.md
+  product:
+    - docs/hds/product/roadmap.md
+    - docs/PROOF_PLAN.md
+  extensions:
+    - extensions/README.md
+
+do_not_load_without_reason:
+  - .skills/project-safe/*
+
+implementation_entry:
+  contract: .agentic-harness/contracts/m1-core-readonly-contract.md
+  status: implemented
+  scope: core-only-no-extensions
+  ados_spec: .agentic-harness/contracts/ados-extension-tool-surface.md

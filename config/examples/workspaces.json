@@ -1,0 +1,15 @@
+{
+  "authorized_roots": ["~/Documents/dev"],
+  "workspaces": [
+    {
+      "workspace_id": "workspace-mcp",
+      "path": "~/Documents/dev/workspace-mcp",
+      "deny_globs": [".env", ".env.*", "*.pem", ".ssh/**", "**/id_rsa", "**/id_rsa.pub"]
+    },
+    {
+      "workspace_id": "nested-example",
+      "path": "~/Documents/dev/some-folder/my-nested-repo",
+      "deny_globs": [".env", ".env.*", "*.pem", ".ssh/**"]
+    }
+  ]
+}
