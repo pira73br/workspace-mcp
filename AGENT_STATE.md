@@ -13,7 +13,7 @@ Project: **Workspace MCP** (`workspace-mcp`)
 | mcp_server_implemented | true (M1 read-only) |
 | extensions_implemented | false |
 | m1_contract_approved | true |
-| baseline_commit | not created (waived) |
+| baseline_commit | `1006274` (2026-07-11) |
 
 ## Current Objective
 

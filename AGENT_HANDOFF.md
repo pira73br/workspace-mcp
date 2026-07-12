@@ -51,8 +51,7 @@ The product owner vision includes writes, search, commands, git commit, permissi
 
 ## Blockers
 
-- B-004: Baseline commit (human approval)
-- B-006: Authorized root confirmation (DQ-030)
+None for M2. Baseline commit complete (`1006274`).
 
 ## Next Agent — M2
 

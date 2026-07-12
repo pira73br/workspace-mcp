@@ -9,8 +9,8 @@
 **Deliverables:** README, installation-guide, tool-catalog-m1
 
 ## TODO-P1-005 — Baseline Commit
-**Status:** proposed  
-**Command:** `finalize_bootstrap_commit.sh` when human approves
+**Status:** completed  
+**Commit:** `1006274` — `chore: bootstrap project harness capsule`
 
 ## TODO-M2-001 — M2 Contract Amendment
 **Status:** proposed  

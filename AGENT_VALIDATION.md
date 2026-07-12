@@ -7,7 +7,7 @@
 | `bash scripts/run_all_checks.sh` | **PASSED** | 2026-07-11 |
 | `npm test` | **15/15 PASSED** | 2026-07-11 |
 | `npm run build` | **PASSED** | 2026-07-11 |
-| Baseline commit | Not run (waived) | — |
+| Baseline commit | **PASSED** (`1006274`) | 2026-07-11 |
 
 ## Level
 

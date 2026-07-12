@@ -20,7 +20,7 @@ last_updated: 2026-07-11
 | E-M0-003 | Architecture pivot documented | Verified | 2026-07-11 |
 | E-M0-004 | Old `merciless-janitors-workspace-mcp` removed | Verified | 2026-07-11 |
 | E-M0-005 | MCP server not implemented | Verified | 2026-07-11 |
-| E-M0-006 | Baseline commit | Not created (waived) | — |
+| E-M0-006 | Baseline commit | Verified (`1006274`) | 2026-07-11 |
 
 ## P1 — Proof Contract
 

@@ -10,8 +10,7 @@
 **Status:** RESOLVED — Option A (no follow)
 
 ## B-004 — No Baseline Commit (P1)
-**Status:** open (waived)  
-**Action:** Human approves `finalize_bootstrap_commit.sh` before Phase 2 PR
+**Status:** RESOLVED — commit `1006274` (2026-07-11)
 
 ## B-005 — MJS Extension Repo Location (P2)
 **DQ-041** — Same monorepo vs separate package
