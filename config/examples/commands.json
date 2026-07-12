@@ -1,0 +1,25 @@
+{
+  "global_denied": ["sudo", "su", "doas", "pkexec", "chmod", "chown", "kill", "pkill"],
+  "defaults": {
+    "timeout_ms": 120000,
+    "max_output_bytes": 1048576
+  },
+  "workspaces": {
+    "workspace-mcp": {
+      "allowed": [
+        {
+          "command_id": "npm-test",
+          "argv": ["npm", "test"],
+          "profiles": ["maintainer", "release-manager"],
+          "description": "Run project test suite"
+        },
+        {
+          "command_id": "npm-build",
+          "argv": ["npm", "run", "build"],
+          "profiles": ["maintainer", "release-manager"],
+          "description": "Compile TypeScript"
+        }
+      ]
+    }
+  }
+}

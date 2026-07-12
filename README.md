@@ -12,11 +12,20 @@ Allow AI assistants to work naturally inside **explicitly authorized** developme
 
 | Attribute | Value |
 |-----------|-------|
-| **Phase** | Phase 2 — M1 core read-only **implemented** |
-| **MCP server** | **M1 stdio server** (`src/core/`) |
+| **Phase** | Phase 2 — M2 search + commands **implemented** |
+| **MCP server** | **M1+M2 stdio server** (`src/core/`) |
 | **Product maturity** | `0.1.0` |
 | **OS/capsule** | Agentic Delivery OS v1.5.7 |
 | **Initial authorized root** | `~/Documents/dev` (hypothesis) |
+
+## M2 Tools (Implemented)
+
+| Tool | Capability | Description |
+|------|------------|-------------|
+| `search_repo` | `search:repo` | Search filenames or content |
+| `command_exec` | `command:exec` | Run allowlisted commands by ID |
+
+Permission profiles: `observer` (read+search), `maintainer` (+commands). See `config/examples/commands.json`.
 
 ## M1 Tools (Implemented)
 
@@ -48,6 +57,7 @@ Copy examples and edit paths for your machine:
 mkdir -p ~/.config/workspace-mcp/grants
 cp config/examples/workspaces.json ~/.config/workspace-mcp/
 cp config/examples/grants/local-dev.json ~/.config/workspace-mcp/grants/
+cp config/examples/commands.json ~/.config/workspace-mcp/
 chmod 600 ~/.config/workspace-mcp/grants/local-dev.json
 ```
 

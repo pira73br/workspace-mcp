@@ -1,9 +1,11 @@
 import { WorkspaceMcpError, isWorkspaceMcpError } from "../errors.js";
 import { authorize } from "../auth/gate.js";
 import { auditToolCall, AuditLogger } from "../audit/logger.js";
+import { executeCommand } from "../command/runner.js";
 import { detectCapabilities } from "../detect/scanner.js";
 import { listDirectory, readFile } from "../fs/operations.js";
 import { gitDiff, gitLog, gitStatus } from "../git/runner.js";
+import { searchRepo } from "../search/repo-search.js";
 import type { ServerConfig } from "../types.js";
 
 export interface ToolServices {
@@ -25,6 +27,7 @@ function runTool<T>(
   capability: Parameters<typeof authorize>[2],
   workspaceId: string | undefined,
   fn: () => T,
+  extra?: { command_id?: string },
 ): T {
   const start = Date.now();
   try {
@@ -36,6 +39,7 @@ function runTool<T>(
       workspace_id: workspaceId,
       outcome: "ok",
       duration_ms: Date.now() - start,
+      command_id: extra?.command_id,
     });
     return result;
   } catch (error) {
@@ -48,6 +52,44 @@ function runTool<T>(
       outcome,
       error_code: code,
       duration_ms: Date.now() - start,
+      command_id: extra?.command_id,
+    });
+    throw error;
+  }
+}
+
+async function runToolAsync<T>(
+  services: ToolServices,
+  tool: string,
+  capability: Parameters<typeof authorize>[2],
+  workspaceId: string | undefined,
+  fn: () => Promise<T>,
+  extra?: { command_id?: string },
+): Promise<T> {
+  const start = Date.now();
+  try {
+    authorize(services.config, workspaceId, capability);
+    const result = await fn();
+    auditToolCall(services.audit, {
+      tool,
+      capability,
+      workspace_id: workspaceId,
+      outcome: "ok",
+      duration_ms: Date.now() - start,
+      command_id: extra?.command_id,
+    });
+    return result;
+  } catch (error) {
+    const code = isWorkspaceMcpError(error) ? error.code : "INTERNAL_ERROR";
+    const outcome = code.startsWith("AUTH_") ? "deny" : "error";
+    auditToolCall(services.audit, {
+      tool,
+      capability,
+      workspace_id: workspaceId,
+      outcome,
+      error_code: code,
+      duration_ms: Date.now() - start,
+      command_id: extra?.command_id,
     });
     throw error;
   }
@@ -114,6 +156,39 @@ export function detectReport(services: ToolServices, workspaceId: string) {
     const workspace = getWorkspace(services.config, workspaceId);
     return detectCapabilities(workspace);
   });
+}
+
+export function searchRepoTool(
+  services: ToolServices,
+  workspaceId: string,
+  query: string,
+  mode: "content" | "filename",
+  relativePath?: string,
+  maxResults?: number,
+) {
+  return runTool(services, "search_repo", "search:repo", workspaceId, () => {
+    const workspace = getWorkspace(services.config, workspaceId);
+    return searchRepo(workspace, query, mode, relativePath, maxResults);
+  });
+}
+
+export async function commandExecTool(
+  services: ToolServices,
+  workspaceId: string,
+  commandId: string,
+) {
+  return runToolAsync(
+    services,
+    "command_exec",
+    "command:exec",
+    workspaceId,
+    async () => {
+      const workspace = getWorkspace(services.config, workspaceId);
+      const ctx = authorize(services.config, workspaceId, "command:exec");
+      return executeCommand(services.config, workspace, ctx.grant, commandId);
+    },
+    { command_id: commandId },
+  );
 }
 
 export function formatToolError(error: unknown): string {

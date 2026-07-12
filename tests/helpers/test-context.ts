@@ -2,7 +2,7 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { GrantConfig, WorkspacesConfig } from "../../src/core/types.js";
+import type { CommandsConfig, GrantConfig, WorkspacesConfig } from "../../src/core/types.js";
 import { loadServerConfigFromDir } from "../../src/core/config/loader.js";
 import { AuditLogger } from "../../src/core/audit/logger.js";
 import type { ToolServices } from "../../src/core/tools/handlers.js";
@@ -13,6 +13,8 @@ export const FULL_CAPABILITIES = [
   "fs:read",
   "git:read",
   "detect:report",
+  "search:repo",
+  "command:exec",
 ] as const;
 
 export function createTempDir(prefix: string): string {
@@ -43,6 +45,7 @@ export function buildTestServices(params: {
   denyGlobs?: string[];
   grant?: Partial<GrantConfig> | null;
   principalId?: string;
+  commands?: CommandsConfig;
 }): ToolServices {
   const workspaceId = params.workspaceId ?? "test-ws";
   const principalId = params.principalId ?? "local-dev";
@@ -64,6 +67,7 @@ export function buildTestServices(params: {
       : {
           grant_id: "test-grant",
           principal_id: principalId,
+          profile: "maintainer",
           workspaces: [workspaceId],
           capabilities: [...FULL_CAPABILITIES],
           issued_at: new Date().toISOString(),
@@ -71,6 +75,18 @@ export function buildTestServices(params: {
           ...params.grant,
         };
 
+  if (params.commands) {
+    fs.writeFileSync(
+      path.join(params.configDir, "commands.json"),
+      JSON.stringify(params.commands, null, 2),
+    );
+  }
+
   const config = loadServerConfigFromDir(params.configDir, principalId, workspacesJson, grant);
+
+  if (params.commands) {
+    config.commands = params.commands;
+  }
+
   return { config, audit: new AuditLogger(config.audit_path) };
 }

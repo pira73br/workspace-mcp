@@ -30,7 +30,11 @@ Single workspace, core tools only, detection report, full security test matrix.
 
 **Phase 1 contract approved 2026-07-11.** **M1 implemented 2026-07-11** — read-only stdio server, 15 tests.
 
-## M2 — Search + Commands
+## M2 — Search + Commands ✓
+
+- `search_repo`, `command_exec`
+- `commands.json` allowlist + permission profiles
+- 23 tests (2026-07-11)
 
 ## M3 — Writes + Extension SDK
 

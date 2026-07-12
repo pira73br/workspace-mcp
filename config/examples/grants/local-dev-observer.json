@@ -1,7 +1,7 @@
 {
-  "grant_id": "local-dev-m2",
-  "principal_id": "local-dev",
-  "profile": "maintainer",
+  "grant_id": "local-dev-observer",
+  "principal_id": "local-dev-observer",
+  "profile": "observer",
   "workspaces": ["workspace-mcp"],
   "capabilities": [
     "workspace:list",
@@ -9,8 +9,7 @@
     "fs:read",
     "git:read",
     "detect:report",
-    "search:repo",
-    "command:exec"
+    "search:repo"
   ],
   "issued_at": "2026-07-11T00:00:00Z",
   "expires_at": null

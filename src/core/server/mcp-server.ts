@@ -8,6 +8,7 @@ import { AuditLogger } from "../audit/logger.js";
 import { loadServerConfig } from "../config/loader.js";
 import type { ServerConfig } from "../types.js";
 import {
+  commandExecTool,
   detectReport,
   formatToolError,
   fsList,
@@ -15,6 +16,7 @@ import {
   gitDiffTool,
   gitLogTool,
   gitStatusTool,
+  searchRepoTool,
   workspaceList,
   type ToolServices,
 } from "../tools/handlers.js";
@@ -107,6 +109,35 @@ const TOOL_DEFINITIONS = [
       additionalProperties: false,
     },
   },
+  {
+    name: "search_repo",
+    description: "Search filenames or content within a workspace",
+    inputSchema: {
+      type: "object",
+      required: ["workspace_id", "query", "mode"],
+      properties: {
+        workspace_id: { type: "string" },
+        query: { type: "string" },
+        mode: { type: "string", enum: ["content", "filename"] },
+        relative_path: { type: "string" },
+        max_results: { type: "number", minimum: 1, maximum: 200 },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "command_exec",
+    description: "Execute a pre-registered allowlisted command by ID",
+    inputSchema: {
+      type: "object",
+      required: ["workspace_id", "command_id"],
+      properties: {
+        workspace_id: { type: "string" },
+        command_id: { type: "string" },
+      },
+      additionalProperties: false,
+    },
+  },
 ] as const;
 
 function asRecord(value: unknown): Record<string, unknown> {
@@ -171,6 +202,23 @@ export function createMcpServer(services: ToolServices): Server {
           break;
         case "detect_report":
           result = detectReport(services, String(args.workspace_id));
+          break;
+        case "search_repo":
+          result = searchRepoTool(
+            services,
+            String(args.workspace_id),
+            String(args.query),
+            args.mode === "filename" ? "filename" : "content",
+            typeof args.relative_path === "string" ? args.relative_path : undefined,
+            typeof args.max_results === "number" ? args.max_results : undefined,
+          );
+          break;
+        case "command_exec":
+          result = await commandExecTool(
+            services,
+            String(args.workspace_id),
+            String(args.command_id),
+          );
           break;
         default:
           return {

@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { WorkspaceMcpError } from "../errors.js";
 import type { GrantConfig, ResolvedWorkspace, ServerConfig, WorkspacesConfig } from "../types.js";
+import { loadCommandsConfig, validateCommandsConfig } from "./commands.js";
 
 const WORKSPACE_ID_PATTERN = /^[a-z0-9][a-z0-9._-]{0,63}$/;
 
@@ -108,6 +109,8 @@ export function loadServerConfig(principalId = "local-dev"): ServerConfig {
   const config_dir = getConfigDir();
   const { authorized_roots, workspaces } = loadWorkspacesConfig(config_dir);
   const workspaceMap = new Map(workspaces.map((w) => [w.workspace_id, w]));
+  const commands = loadCommandsConfig(config_dir);
+  validateCommandsConfig(commands);
 
   return {
     config_dir,
@@ -116,6 +119,7 @@ export function loadServerConfig(principalId = "local-dev"): ServerConfig {
     workspaces: workspaceMap,
     authorized_roots,
     grant: loadGrant(config_dir, principalId),
+    commands,
   };
 }
 
@@ -140,6 +144,8 @@ export function loadServerConfigFromDir(
     root_path: resolveAbsolute(entry.path),
     deny_globs: entry.deny_globs ?? [],
   }));
+  const commands = loadCommandsConfig(configDir);
+  validateCommandsConfig(commands);
 
   return {
     config_dir: configDir,
@@ -148,5 +154,6 @@ export function loadServerConfigFromDir(
     workspaces: new Map(workspaces.map((w) => [w.workspace_id, w])),
     authorized_roots,
     grant,
+    commands,
   };
 }

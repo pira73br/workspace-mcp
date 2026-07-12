@@ -41,6 +41,7 @@ export function auditToolCall(
     outcome: AuditEvent["outcome"];
     error_code?: ErrorCode;
     duration_ms?: number;
+    command_id?: string;
   },
 ): string {
   return logger.write({
@@ -52,5 +53,6 @@ export function auditToolCall(
     outcome: params.outcome,
     error_code: params.error_code,
     duration_ms: params.duration_ms,
+    command_id: params.command_id,
   });
 }

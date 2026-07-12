@@ -6,30 +6,28 @@ Do not use prior conversation memory. Do not ask for the private Agentic Deliver
 
 ## Current Phase
 
-**Phase 2 — M1 Core Implementation COMPLETE → M2 Search + Commands NEXT**
+**M2 COMPLETE → M3 Writes + Extension SDK NEXT**
 
-M1 read-only stdio MCP server is implemented in `src/core/`. 15 tests passing.
+M1 read-only + M2 search/commands implemented. 23 tests passing.
 
-## Mission (M2)
+## Mission (M3)
 
 1. Re-validate: `bash scripts/run_all_checks.sh`
-2. Extend contract for M2: search + safe command execution
-3. Implement `search:repo` and `command:exec` per permission model
-4. Maintain deny-by-default, audit, path protection
-5. **Still no extension host, no writes, no ADOS tools**
+2. Implement atomic FS writes per security doctrine
+3. Design extension host SDK contract
+4. **Still no ADOS/MJS tools in core**
 
 Do not start product implementation unless this file explicitly authorizes the current phase scope.
 
 ## First Files to Read
 
-1. `00-NEXT_AGENT_STARTUP.md` (this file)
+1. `00-NEXT_AGENT_STARTUP.md`
 2. `.agentic-harness/contracts/m1-core-readonly-contract.md`
-3. `docs/hds/product/roadmap.md`
-4. `docs/hds/security/permission-model.md`
-5. `docs/hds/operations/testing-strategy.md`
-6. `src/core/` (existing M1 implementation)
-7. `AGENT_STATE.md`
-8. `AGENT_HANDOFF.md`
+3. `.agentic-harness/contracts/m2-search-commands-contract.md`
+4. `docs/hds/security/path-protection-policy.md`
+5. `src/core/`
+6. `AGENT_STATE.md`
+7. `AGENT_HANDOFF.md`
 
 ## Mandatory First Command
 
@@ -37,47 +35,37 @@ Do not start product implementation unless this file explicitly authorizes the c
 bash scripts/run_all_checks.sh
 ```
 
-## M1 Delivered (Do Not Regress)
+## M2 Delivered (Do Not Regress)
 
-- 7 MCP tools: workspace_list, fs_list, fs_read, git_*, detect_report
-- Three-tier auth (ADR 0003)
-- Symlink Option A
-- Audit fail-closed
-- T-M1-01 through T-M1-10 covered in tests
+- `search_repo`, `command_exec` tools
+- `commands.json` allowlist
+- Permission profiles in grants
+- T-M2-01 through T-M2-08
 
 ## Prohibited Actions
 
 Do not import from `extensions/`.
 Do not implement ADOS/MJS tools in core.
-Do not implement writes (M3).
 Do not claim client compatibility without M5 smoke.
 
-## Required Work (M2)
+## Required Work (M3)
 
-1. ADR or contract amendment for M2 tool schemas
-2. Search module with ripgrep or native walker + content index
-3. Command runner with allowlist, timeout, output caps
-4. Permission profiles: Observer vs Maintainer command sets
-5. Tests for command injection, path escape, deny lists
-6. Update `AGENT_*` files and documentation
+1. M3 contract for `fs:write` tools
+2. Atomic write module with rollback
+3. Extension host SDK interface
+4. Tests T-M3-*
 
 ## Expected Outputs
 
-- M2 contract amendment
-- `src/core/search/`, `src/core/command/`
-- Extended test matrix T-M2-*
-- Updated tool catalog and installation guide
-
-## Architecture Reminders
-
-- Core boots with zero extensions (ADR 0004)
-- Capability detection reports only (ADR 0005)
-- Authorized root ≠ blanket access
+- M3 write contract
+- `src/core/fs/write.ts` with atomic writes
+- Extension host SDK draft
+- Updated tool catalog and tests
 
 ## Stop Condition
 
-Stop when M2 acceptance criteria met or blocked. Do not start M3 writes without approval.
+Stop when M3 acceptance criteria met. Do not enable git commit in core without contract.
 
 ## Final Report
 
-Report: validations, tests, new tools, blockers, M3 readiness.
+Report: validations, tests, new modules, M4 readiness.
